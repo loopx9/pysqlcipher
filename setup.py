@@ -160,7 +160,7 @@ class AmalgamationBuildExt(build_ext):
             openssl_conf = os.environ.get('OPENSSL_CONF')
             if not openssl_conf:
                 sys.exit('Fatal error: OpenSSL could not be detected!')
-            openssl = os.path.dirname(os.path.dirname(openssl_conf))
+            openssl = openssl_conf#os.path.dirname(os.path.dirname(openssl_conf))
 
             # Configure the compiler
             ext.include_dirs.append(os.path.join(openssl, "include"))
@@ -168,10 +168,16 @@ class AmalgamationBuildExt(build_ext):
 
             # Configure the linker
             if self.compiler.compiler_type == "msvc":
-                ext.extra_link_args.append("libeay32.lib")
+                ext.extra_link_args.append("libssl.lib")
+                ext.extra_link_args.append("libcrypto.lib")
+                ext.extra_link_args.append("Advapi32.lib")
+                ext.extra_link_args.append("User32.lib")
+                ext.extra_link_args.append("Crypt32.lib")
+                ext.extra_link_args.append("ws2_32.lib")
                 ext.extra_link_args.append(
                     "/LIBPATH:" + os.path.join(openssl, "lib")
                 )
+                
             if self.compiler.compiler_type == "mingw32":
                 ext.extra_link_args.append("-lcrypto")
         else:

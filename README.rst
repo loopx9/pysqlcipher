@@ -42,6 +42,7 @@ install. See https://www.sqlite.org/amalgamation.html
 If you don't have sqlcipher installed in the system, you can use the bundled
 pysqlcipher::
 
+  set OPENSSL_CONF=d:\vcpkg\installed\x86-windows-static
   python setup.py install --bundled 
 
 You can also pass a different amalgamation path, that you have previously
